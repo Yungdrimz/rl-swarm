@@ -10,7 +10,7 @@ ALCHEMY_URL = "https://gensyn-testnet.g.alchemy.com/public"
 
 MAINNET_CHAIN_ID = 685685
 
-SWARM_COORDINATOR_VERSION = "0.4.2"
+SWARM_COORDINATOR_VERSION = "0.4"
 SWARM_COORDINATOR_ABI_JSON = (
     f"hivemind_exp/contracts/SwarmCoordinator_{SWARM_COORDINATOR_VERSION}.json"
 )
@@ -55,7 +55,7 @@ class WalletSwarmCoordinator(SwarmCoordinator):
     def _default_gas(self):
         return {
             "gas": 2000000,
-            "gasPrice": self.web3.to_wei("5", "gwei"),
+            "gasPrice": self.web3.to_wei("1", "gwei"),
         }
 
     def register_peer(self, peer_id):
@@ -95,23 +95,12 @@ class ModalSwarmCoordinator(SwarmCoordinator):
     def register_peer(self, peer_id):
         try:
             send_via_api(self.org_id, "register-peer", {"peerId": peer_id})
-        except requests.exceptions.HTTPError as http_err:
-            if http_err.response is None or http_err.response.status_code != 400:
+        except requests.exceptions.HTTPError as e:
+            if e.response is None or e.response.status_code != 500:
                 raise
 
-            try:
-                err_data = http_err.response.json()
-                err_name = err_data["error"]
-                if err_name != "PeerIdAlreadyRegistered":
-                    logger.info(f"Registering peer failed with: f{err_name}")
-                    raise
-                logger.info(f"Peer ID [{peer_id}] is already registered! Continuing.")
-
-            except json.JSONDecodeError as decode_err:
-                logger.debug(
-                    "Error decoding JSON during handling of register-peer error"
-                )
-                raise http_err
+            logger.debug("Unknown error calling register-peer endpoint! Continuing.")
+            # logger.info(f"Peer ID [{peer_id}] is already registered! Continuing.")
 
     def submit_reward(self, round_num, stage_num, reward, peer_id):
         try:

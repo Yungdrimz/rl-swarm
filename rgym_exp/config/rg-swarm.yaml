@@ -15,9 +15,9 @@ training:
   max_stage: 1
   hf_push_frequency: 1
   num_generations: 2
-  num_transplant_trees: 2
+  num_transplant_trees: 1
   seed: 42
-  dtype: 'float32'
+  dtype: 'bfloat16'
 
 blockchain:
   alchemy_url: "https://gensyn-testnet.g.alchemy.com/public"
@@ -76,13 +76,15 @@ game_manager:
       epsilon: 0.2
       epsilon_high: 0.28
       num_generations: ${training.num_generations}
+      enable_gradient_checkpointing: true
+      
     log_with: wandb
     log_dir: ${log_dir}
     judge_base_url: ${eval.judge_base_url}
   data_manager:
     _target_: rgym_exp.src.data.ReasoningGymDataManager
     yaml_config_path: "rgym_exp/src/datasets.yaml"
-    num_train_samples: 2
+    num_train_samples: 1
     num_evaluation_samples: 0
     num_generations: ${training.num_generations}
     system_prompt_id: 'default'
@@ -93,7 +95,7 @@ game_manager:
     initial_peers: ${communications.initial_peers}
     identity_path: ${oc.env:IDENTITY_PATH,null}
     startup_timeout: 120
-    beam_size: 50
+    beam_size: 20
   coordinator:
     _target_: rgym_exp.src.coordinator.ModalSwarmCoordinator
     web3_url: ${blockchain.alchemy_url}
