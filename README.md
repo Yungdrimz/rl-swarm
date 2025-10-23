@@ -93,24 +93,28 @@ source .venv/bin/activate
 ./run_rl_swarm.sh
 ```
 ## Step 5) Login
-**1- You have to receive `Waiting for userData.json to be created...` in logs**
+**1- You have to receive `Waiting for userData.json to be created...` in logs**  
 
 ![image](https://github.com/user-attachments/assets/140f7d32-844f-4cf0-aac4-a91e9a14c1aa)
 
 **2- Open login page in browser**
 * **Local PC:** Open `http://localhost:3000/` in your browser
 * **VPS Users: Tunnel to external URL:**
-  * 1- Open a new terminal
-  * 2- Install **localtunnel**:
+  * 1- Detach from the Gensyn screen by pressing the command CTRL + A + D on the Keyboard.
+  * 2- Create a new screen session by using the command.
+     ```
+      screen -S tunnel
+     ```
+  * 3- Install **localtunnel**:
     ```
     sudo npm install -g localtunnel
     ```
-  * 3- Get a password:
+  * 4- Get a password:
     ```
     curl https://loca.lt/mytunnelpassword
     ```
   * The password is actually your VPS IP
-  * 4- Get URL
+  * 5- Get URL
     ```
     lt --port 3000
     ```
@@ -121,6 +125,12 @@ source .venv/bin/activate
 ![image](https://github.com/user-attachments/assets/f33ea530-b15f-4af7-a317-93acd8618a9f)
 
 * After login, your terminal starts installation.
+* Detach from the tunnel screen by pressing the command CTRL + A + D on the Keyboard.
+* Reattach to the gensyn screen by using the command
+  
+    ```
+      screen -r gensyn
+    ```
 
 **4- Answer prompts:**
 * `Would you like to push models you train in the RL swarm to the Hugging Face Hub? [y/N]` >>> Press `N` to join testnet
