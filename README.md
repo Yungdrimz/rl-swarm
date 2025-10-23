@@ -125,9 +125,13 @@ source .venv/bin/activate
 **4- Answer prompts:**
 * `Would you like to push models you train in the RL swarm to the Hugging Face Hub? [y/N]` >>> Press `N` to join testnet
   * `HuggingFace` needs `2GB` upload bandwidth for each model you train, you can press `Y`, and enter your access-token.
-* `Enter the name of the model you want to use in huggingface repo/name format, or press [Enter] to use the default model.` >>> Copy and paste this model below. It works well on the CPU
+* `Enter the name of the model you want to use in huggingface repo/name format, or press [Enter] to use the default model.` >>> Click enter to select any of the two by default, or copy and paste any of this model below. It works well on a 16GB CPU
+  
     ```
     Qwen/Qwen3-0.6B
+    ```
+    ```
+    Gensyn/Qwen2.5‑0.5B‑Instruct
     ```
 
 ---
@@ -163,8 +167,8 @@ Connect your VPS using `Mobaxterm` client to be able to move files to your local
 
 ### Screen commands
 * Minimize: `CTRL` + `A` + `D`
-* Return: `screen -r swarm`
-* Stop and Kill: `screen -XS swarm quit`
+* Return: `screen -r gensyn`
+* Stop and Kill: `screen -XS gensyn quit`
 
 
 ---
